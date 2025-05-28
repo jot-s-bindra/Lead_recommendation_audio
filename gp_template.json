@@ -1,0 +1,26 @@
+{
+    "_id": "GP123",
+    "name": "Akshay Kumar",
+    "age": 28,
+    "location": "Delhi",
+    "language_preferred": "Hindi",
+    "conversion_rate": 0.43,
+    "conversion_rates_by_product": {
+        "home_loan": 0.38,
+        "credit_card": 0.52
+    },
+    "total_calls": 57,
+    "calls_by_product": {
+        "home_loan": 31,
+        "credit_card": 26
+    },
+    "average_metrics": {
+        "tone": "casual",
+        "sentiment": "positive",
+        "intent_trend": "increasing",
+        "engagement_level": "moderate",
+        "sales_effectiveness_score": 7.4
+    },
+    "conversation_ids": ["CONV001", "CONV002", "CONV003"],
+    "profile_notes": "Good with budget-conscious clients and home loan conversions."
+}

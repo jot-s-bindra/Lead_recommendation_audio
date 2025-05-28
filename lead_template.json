@@ -1,0 +1,19 @@
+{
+    "lead_id": "LEAD123",
+    "contact": {
+        "name": "Jane Doe",
+        "phone": "+1234567890",
+        "email": "jane@example.com",
+        "age": 30,
+        "region": "Punjab",
+        "preferred_language": "English"
+    },
+    "interest": {
+        "products": ["home_loan", "insurance"],
+        "interest_level": "high",
+        "budget_range": "100000-200000",
+        "urgency_level": "within_month"
+    },
+    "notes": "Interested in low-interest home loans.",
+    "ai_score_of_conversion": 85
+}
