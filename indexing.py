@@ -1,0 +1,2 @@
+from qdrant_utils import ensure_payload_indexes
+ensure_payload_indexes()
