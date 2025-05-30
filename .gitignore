@@ -5,3 +5,4 @@ __pycache__/
 uploads/
 temp_audio/
 testleadrecom.mp3
+templates_db/

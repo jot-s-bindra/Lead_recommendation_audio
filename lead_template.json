@@ -1,19 +1,25 @@
 {
-    "lead_id": "LEAD123",
+    "_id": "lead_id",
+    "referrer_gp_id": "ReferralSource123",
+    "buyer_gp_ids": ["GP123", "GP456"],
     "contact": {
-        "name": "Jane Doe",
-        "phone": "+1234567890",
-        "email": "jane@example.com",
-        "age": 30,
-        "region": "Punjab",
-        "preferred_language": "English"
+        "name": "Akshay",
+        "phone": "+919876543210"
     },
     "interest": {
-        "products": ["home_loan", "insurance"],
-        "interest_level": "high",
-        "budget_range": "100000-200000",
-        "urgency_level": "within_month"
+        "products": ["credit_card", "home_loan"],
+        "interest_level": "medium"
     },
-    "notes": "Interested in low-interest home loans.",
-    "ai_score_of_conversion": 85
+    "notes": "Very active user, interested in both loan and card offers.",
+    "personal_data": {
+        "occupation": "Software Engineer",
+        "age": 30,
+        "income": 75000,
+        "state": "Maharashtra"
+    },
+    "summary": "Hindi speaking Software Engineer interested in credit card and home loan.",
+    "is_sellable": true,
+    "status": "NEW",
+    "createdAt": "2025-05-31T00:00:00.000Z",
+    "updatedAt": "2025-05-31T00:00:00.000Z"
 }
