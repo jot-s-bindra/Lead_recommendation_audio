@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 import uuid
 from datetime import datetime
-
+from bson import ObjectId
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 
@@ -16,7 +16,7 @@ def insert_sample_lead():
 
     lead = {
         "_id": lead_id,  # Use UUID as the Mongo _id
-        "referrer_gp_id": None,
+        "referrer_gp_id": ObjectId("65f4de5582a1bb927acff376"),  # Example valid ObjectId of a GP
         "buyer_gp_ids": [],
         "contact": {
             "name": "Akshay",

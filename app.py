@@ -3,7 +3,21 @@ import time
 from flask import Flask, request, jsonify
 from sarvam_transcribe_utils import transcribe_and_translate_sarvam
 from recommendation_utils import recommend_from_text
-from mongo_utils import get_gp_profile_by_id
+from mongo_utils import get_gp_profile_by_id, get_lead_by_id
+from qdrant_utils import upsert_lead, delete_lead_by_id
+from embedding_utils import get_openai_embedding
+from bson import ObjectId
+
+def stringify_objectids(obj):
+    if isinstance(obj, dict):
+        return {k: stringify_objectids(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [stringify_objectids(i) for i in obj]
+    elif isinstance(obj, ObjectId):
+        return str(obj)
+    else:
+        return obj
+
 app = Flask(__name__)
 
 @app.route("/audio-to-recommend", methods=["POST"])
@@ -94,6 +108,46 @@ def query_recommend():
             "query": query_text,
             "recommendations": recommendations
         })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+@app.route("/vector-lead-create", methods=["POST"])
+def vector_lead_create():
+    try:
+        data = request.get_json()
+        mongo_id = data.get("mongo_id")
+        if not mongo_id:
+            return jsonify({"error": "Missing 'mongo_id' in request"}), 400
+
+        lead = get_lead_by_id(mongo_id)
+        lead = stringify_objectids(lead)
+        lead_text = str(lead)  # use full document for embedding
+        vector = get_openai_embedding(lead_text)
+        lead["_id"] = str(lead["_id"])  # ensure string format
+
+        upsert_lead(
+            text=lead_text,
+            metadata=lead,
+            vector=vector,
+            id=lead["_id"]
+        )
+
+        return jsonify({"message": f"✅ Lead {lead['_id']} inserted into Qdrant."})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/vector-lead-delete", methods=["DELETE"])
+def vector_lead_delete():
+    try:
+        data = request.get_json()
+        mongo_id = data.get("mongo_id")
+        if not mongo_id:
+            return jsonify({"error": "Missing 'mongo_id' in request"}), 400
+
+        delete_lead_by_id(mongo_id)
+        return jsonify({"message": f"🗑️ Lead {mongo_id} deleted from Qdrant."})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -44,29 +44,27 @@ def ensure_payload_indexes(collection=COLLECTION_NAME):
     except Exception as e:
         print(f"⚠️ Index creation warning: {e}")
 
-def upsert_lead(text, metadata: dict, id: str = None, vector: list = None, collection=COLLECTION_NAME):
-    """
-    Upsert a lead into Qdrant. ID must be a UUID string or valid point ID.
-    """
-    ensure_collection_exists(collection)
-
+def upsert_lead(text, metadata: dict, id=None, collection="gromo_leads", vector=None):
+    from embedding_utils import get_openai_embedding
     if not vector:
         vector = get_openai_embedding(text)
     if not id:
         id = str(uuid.uuid4())
-
     client.upsert(
         collection_name=collection,
         points=[
-            models.PointStruct(
-                id=id,
-                vector=vector,
-                payload=metadata
-            )
+            models.PointStruct(id=id, vector=vector, payload=metadata)
         ]
     )
-    print(f"✅ Lead with ID '{id}' upserted to Qdrant")
     return id
+
+def delete_lead_by_id(lead_id: str, collection="gromo_leads"):
+    client.delete(
+        collection_name=collection,
+        points_selector=models.PointIdsList(
+            points=[lead_id]
+        )
+    )
 
 def search_similar(query_text, limit=5, collection=COLLECTION_NAME):
     """
